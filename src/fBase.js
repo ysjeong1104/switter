@@ -1,6 +1,6 @@
 
 import {initializeApp} from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword, setPersistence } from "firebase/auth";
+import * as firbaseAuthIntance from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -13,7 +13,9 @@ const firebaseConfig = {
 
 const fApp = initializeApp(firebaseConfig);
 
-const auth = getAuth(fApp);
+const authService = {
+  auth : firbaseAuthIntance.getAuth(fApp) ,
+  authIntance : firbaseAuthIntance
+}
 
-
-export {auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence} 
+export default authService ;
