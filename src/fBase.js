@@ -1,7 +1,7 @@
 
 import {initializeApp} from "firebase/app";
 import * as firbaseAuthIntance from "firebase/auth";
-
+import * as firebaseDataIntance from "firebase/firestore";
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -13,9 +13,16 @@ const firebaseConfig = {
 
 const fApp = initializeApp(firebaseConfig);
 
+
 const authService = {
   auth : firbaseAuthIntance.getAuth(fApp) ,
   authIntance : firbaseAuthIntance
+ 
 }
 
-export default authService ;
+
+const dbService = {
+  db : firebaseDataIntance.getFirestore(fApp),
+  dbService : firebaseDataIntance
+}
+export { authService,dbService } ;

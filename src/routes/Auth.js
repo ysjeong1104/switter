@@ -1,4 +1,4 @@
-import authService from "fBase";
+import { authService } from "fBase";
 import { useState } from "react";
 
 const Auth=()=>{

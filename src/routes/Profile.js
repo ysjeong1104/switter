@@ -1,4 +1,4 @@
-import  authService  from "fBase";
+import  { authService } from "fBase";
 import { useNavigate } from "react-router-dom";
 
 const Profile=()=>{

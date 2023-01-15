@@ -4,7 +4,7 @@ import Home  from "routes/Home";
 import Navigation from "components/Navigation";
 import Profile from "routes/Profile";
 
-const RouteComp=({isLogedin})=>{
+const RouteComp=({isLogedin,userObj})=>{
     
    
     return (
@@ -13,7 +13,7 @@ const RouteComp=({isLogedin})=>{
             <Routes>
                 {isLogedin ? 
                     <>
-                        <Route exact path="/" element={<Home />}/> 
+                        <Route exact path="/" element={<Home userObj={userObj} />}/> 
                         <Route exact path="/profile" element={<Profile />}/> 
                     </>
                     : 
