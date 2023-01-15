@@ -1,15 +1,21 @@
-import { dbService } from "fBase";
+import { dbService, storageService } from "fBase";
 import { useState } from "react";
 
 const Sweet=({sweetObj,isOwner})=>{
     
     const [editing, setEditing] = useState(false);
     const [newSweet, setNewSweet] = useState(sweetObj.text);
-    const onDeleteClick= ()=>{
+    const onDeleteClick= async()=>{
         const ok = window.confirm("진짜 지워요?");
         if(ok){
             const doc = dbService.dbService.doc(dbService.db,"sweets",sweetObj.id)
-            try{                
+            try{            
+                
+                if(sweetObj.imgUrl){
+                    const storage = storageService.getStorage();
+                    const imgInfo = storageService.ref(storage,sweetObj.imgUrl);
+                    await storageService.deleteObject(imgInfo);
+                }
                 dbService.dbService.deleteDoc(doc)
             }
             catch(err){
@@ -58,6 +64,11 @@ const Sweet=({sweetObj,isOwner})=>{
                 :
                 <>
                     <h4>{sweetObj.text ? sweetObj.text : "nothing"}</h4> 
+                    {sweetObj.imgUrl ? 
+                    <div>
+                        <img src={sweetObj.imgUrl} alt='' width="40px" height="50px"/>
+                    </div> 
+                    : ""}
                    {
                         isOwner && 
                         <>

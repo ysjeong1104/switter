@@ -2,6 +2,7 @@
 import {initializeApp} from "firebase/app";
 import * as firbaseAuthIntance from "firebase/auth";
 import * as firebaseDataIntance from "firebase/firestore";
+import * as firebaseStorageInstance from "firebase/storage";
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -25,4 +26,7 @@ const dbService = {
   db : firebaseDataIntance.getFirestore(fApp),
   dbService : firebaseDataIntance
 }
-export { authService,dbService } ;
+
+const storageService = firebaseStorageInstance;
+
+export { authService,dbService,storageService } ;
