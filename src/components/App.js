@@ -7,6 +7,12 @@ function App() {
   const [init, setInit] = useState(false);
   const [isLogedin, setIsLogedin] = useState(authService.auth.currentUser);
   const [userObj, setUserObj] = useState(null);
+
+  const refreshUser=()=>{
+    const user = authService.auth.currentUser;
+    setUserObj({displayName : user.displayName,photoURL : user.photoURL});
+    //setUserObj(Object.assign({},user));
+  }
   useEffect(()=>{    
     authService.authIntance.onAuthStateChanged(authService.auth,(user)=>{
       
@@ -16,13 +22,14 @@ function App() {
       }
       else{
         setIsLogedin(false);
+        setUserObj(null);
       }
       setInit(true);
     })
   },[])
   return (
     <> 
-      {init ? <RouteComp isLogedin={isLogedin} userObj={userObj} /> : "initialiazing..."}
+      {init ? <RouteComp refreshUser={refreshUser} isLogedin={isLogedin} userObj={userObj} /> : "initialiazing..."}
       <footer>&copy; {new Date().getFullYear() } Switter</footer>
     </>
   );
