@@ -1,19 +1,25 @@
 import { useState,useRef } from "react";
 import { dbService,storageService } from "fBase";
 import {v4 as uuidv4} from "uuid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+
 const SweetFactory=({userObj})=>{
 
     const [sweet, setSweet] = useState("")
-    const [attachment, setAttachment] = useState(null);
+    const [attachment, setAttachment] = useState("");
     const fileObj = useRef();
     const collection = dbService.dbService.collection(dbService.db,"sweets");
-    
+
     const onSubmit= async(event)=>{
         event.preventDefault();
+        if (sweet === "") {
+            return;
+        }
        // const collection = dbService.dbService.collecdtion(dbService.db,"sweets");        
         //console.log(fileObj.current.files[0].type);
         let attachmentUrl = "";
-        if(attachment !== null){
+        if(attachment !== ""){
             const file = fileObj.current.files[0];
             const metaData = {
                 contentType: file.type
@@ -33,7 +39,7 @@ const SweetFactory=({userObj})=>{
       //  await fileRef
         await dbService.dbService.addDoc(collection,sweetValue);        
         setSweet("");      
-        setAttachment(null)
+        setAttachment("")
         fileObj.current.value = '';
     }
     const onChange=(event)=>{
@@ -74,11 +80,36 @@ const SweetFactory=({userObj})=>{
     }
 
     return(
-        <form onSubmit={onSubmit}>                
-            <input type="text" name='sweet' value={sweet} onChange={onChange} placeholder="What's on your mind" maxLength={120}/>
-            <input type="file" accept="image/*" onChange={onFileChange} ref={fileObj}/>
-            <input type="submit" value="Sweet" />
-            {attachment && <div><img src={attachment} width="50px" height="50px" alt=''/><button onClick={onClearAttachment}>Clear</button></div>}
+        <form onSubmit={onSubmit} className="factoryForm"> 
+            <div className="factoryInput__container">
+                <input type="text" name='sweet' value={sweet} onChange={onChange} placeholder="What's on your mind" maxLength={120}
+                    className="factoryInput__input" />
+                
+                <input type="submit" value="&rarr;" className="factoryInput__arrow" />                
+            </div>
+            <label htmlFor="attach-file" className="factoryInput__label">
+                <span>Add photos</span>
+                <FontAwesomeIcon icon={faPlus} />
+            </label>
+            <input id="attach-file" type="file" accept="image/*" onChange={onFileChange} ref={fileObj} 
+                style={{
+                    opacity: 0,
+                }}/>
+
+            {attachment &&(
+                <div className="factoryForm__attachment">
+                    <img
+                        src={attachment}
+                        style={{
+                        backgroundImage: attachment,
+                        }}
+                    alt=""/>
+                    <div className="factoryForm__clear" onClick={onClearAttachment}>
+                        <span>Remove</span>
+                        <FontAwesomeIcon icon={faTimes} />
+                    </div>
+                </div>
+            )}
         </form>
     );
 }
