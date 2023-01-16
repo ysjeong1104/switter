@@ -8,7 +8,7 @@ const AuthForm=()=>{
     const [newAccount, setNewAccount] = useState(true);
     const [error, setError] = useState("");
 
-    const inputStyles={};
+   // const inputStyles={};
     const onChange=(event)=>{
         
         const {target : {name, value}} = event; 
